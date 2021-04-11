@@ -4,7 +4,7 @@ class CryptoSkill(MycroftSkill):
     def __init__(self):
         super(CryptoSkill, self).__init__("CryptoSkill")
 
-    @intent_handler('what.is.my.crypto.balance')
+    @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
         # use some sort of imported service to make request to coinbase API
         balance = '19999.05'
