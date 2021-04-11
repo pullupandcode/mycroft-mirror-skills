@@ -13,10 +13,11 @@ class CryptoSkill(MycroftSkill):
     def get_crypto_balance(self):
         time_request = requests.get('https://api.coinbase.com/v2/time')
         result = time_request.json()
-        
+        apikey = os.getenv('CB_SECRET')
+
         headers = {
             'CB-ACCESS-KEY': os.getenv('CB_KEY'),
-            'CB-ACCESS-SIGN': hmac.new(key=os.getenv('CB_SECRET'), msg=f"{str(result['data']['epoch'])}GET/accounts", digestmod=hashlib.sha256),
+            'CB-ACCESS-SIGN': hmac.new(key=apikey, msg=f"{str(result['data']['epoch'])}GET/accounts".encode(), digestmod=hashlib.sha256),
             'CB-ACCESS-TIMESTAMP': f"{str(result['data']['epoch'])}"
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
