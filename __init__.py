@@ -11,8 +11,8 @@ class CryptoSkill(MycroftSkill):
     def get_crypto_balance(self):
         req_time = time.ctime()
         headers = {
-            'CB-ACCESS-KEY': os.environ('CB_KEY'),
-            'CB-ACCESS-SIGN': hmac(os.environ('CB_SECRET'), '%s%s%s'.replace(req_time, 'GET', '/accounts')),
+            'CB-ACCESS-KEY': os.getenv('CB_KEY'),
+            'CB-ACCESS-SIGN': hmac(os.getenv('CB_SECRET'), '%s%s%s'.replace(req_time, 'GET', '/accounts')),
             'CB-ACCESS-TIMESTAMP': req_time
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
