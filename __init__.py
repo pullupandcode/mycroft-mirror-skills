@@ -13,7 +13,7 @@ class CoinbaseWalletAuth(AuthBase):
     def __call__(self, request):
         timestamp = str(int(time.time()))
         message = timestamp + request.method + request.path_url + (request.body or '')
-        signature = hmac.new(self.secret_key, message, hashlib.sha256).hexdigest()
+        signature = hmac.new(self.secret_key.encode(), message.encode(), hashlib.sha256).hexdigest()
 
         request.headers.update({
             'CB-ACCESS-SIGN': signature,
