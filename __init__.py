@@ -24,7 +24,7 @@ class CoinbaseWalletAuth(AuthBase):
 class CryptoSkill(MycroftSkill):
     def __init__(self):
         super(CryptoSkill, self).__init__("CryptoSkill")
-        self.auth = new CoinbaseWalletAuth(API_KEY, API_SECRET)
+        self.auth = CoinbaseWalletAuth(API_KEY, API_SECRET)
 
     @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
