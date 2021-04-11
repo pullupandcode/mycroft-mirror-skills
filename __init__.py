@@ -1,5 +1,6 @@
 import os
 import hmac
+import hashlib
 import time
 from mycroft import MycroftSkill, intent_handler
 import requests
@@ -15,7 +16,7 @@ class CryptoSkill(MycroftSkill):
         
         headers = {
             'CB-ACCESS-KEY': os.getenv('CB_KEY'),
-            'CB-ACCESS-SIGN': hmac(os.getenv('CB_SECRET'), f"{str(result['data']['epoch'])}GET/accounts"),
+            'CB-ACCESS-SIGN': hmac.new(secret=os.getenv('CB_SECRET'), msg=f"{str(result['data']['epoch'])}GET/accounts", digestmod=hashlib.sha256),
             'CB-ACCESS-TIMESTAMP': f"{str(result['data']['epoch'])}"
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
