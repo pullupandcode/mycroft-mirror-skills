@@ -9,7 +9,7 @@ class CryptoSkill(MycroftSkill):
 
     @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
-        req_time = time.gmtime()
+        req_time = time.mktime(time.gmtime())
         headers = {
             'CB-ACCESS-KEY': os.getenv('CB_KEY'),
             'CB-ACCESS-SIGN': hmac(os.getenv('CB_SECRET'), '%s%s%s'.replace(req_time, 'GET', '/accounts')),
@@ -24,7 +24,6 @@ class CryptoSkill(MycroftSkill):
 
         # publish on topic for frontend use
         self.log.info('we have %s in our account', balance)
-
 
 
 def create_skill():
