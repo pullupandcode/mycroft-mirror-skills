@@ -2,6 +2,7 @@ import os
 import hmac
 import time
 from mycroft import MycroftSkill, intent_handler
+import requests
 
 class CryptoSkill(MycroftSkill):
     def __init__(self):
