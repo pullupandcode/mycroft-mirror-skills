@@ -2,7 +2,7 @@ from mycroft import MycroftSkill, intent_handler
 
 class CryptoSkill(MycroftSkill):
     def __init__(self):
-        super.__init__()
+        super.__init__("CryptoSkill")
 
     @intent_handler('what.is.my.crypto.balance')
     def get_crypto_balance(self):
