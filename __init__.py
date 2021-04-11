@@ -13,6 +13,7 @@ class CryptoSkill(MycroftSkill):
     def get_crypto_balance(self):
         time_request = requests.get('https://api.coinbase.com/v2/time')
         result = time_request.json()
+        self.log.info(result)
         apikey = os.getenv('CB_SECRET', '')
         signed_payload = hmac.new(
             key=apikey.encode('utf-8'), 
