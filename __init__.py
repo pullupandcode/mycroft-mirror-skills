@@ -17,7 +17,7 @@ class CryptoSkill(MycroftSkill):
         apikey = os.getenv('CB_SECRET', '')
         signed_payload = hmac.new(
             key=apikey.encode('utf-8'), 
-            msg=f"{str(result['data']['epoch'])}GET/accounts".encode('utf-8'), 
+            msg=f"{str(result['data']['epoch'])}GET/v2/accounts".encode('utf-8'), 
             digestmod=hashlib.sha256
             ).hexdigest()
 
