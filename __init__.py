@@ -1,5 +1,5 @@
 from mycroft import MycroftSkill, intent_handler
-import CoinbaseWalletAuth
+from coinbase import CoinbaseWalletAuth
 import requests
 
 API_KEY = os.getenv('CB_KEY')
