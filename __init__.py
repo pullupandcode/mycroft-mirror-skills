@@ -12,6 +12,7 @@ class CryptoSkill(MycroftSkill):
 
         # publish on topic for frontend use
         self.log.info('we have %s in our account', balance)
+        
 
 
 def create_skill():

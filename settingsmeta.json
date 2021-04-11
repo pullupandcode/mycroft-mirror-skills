@@ -1,0 +1,17 @@
+{
+    "skillMetadata": {
+        "sections": [
+            {
+                "name": "Crypto",
+                "fields": [
+                    {
+                        "name": "api-key",
+                        "type": "text",
+                        "label": "Please insert Coinbase API Key",
+                        "value": ""
+                    }
+                ]
+            }
+        ]
+    }
+}
