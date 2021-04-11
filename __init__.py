@@ -14,10 +14,15 @@ class CryptoSkill(MycroftSkill):
         time_request = requests.get('https://api.coinbase.com/v2/time')
         result = time_request.json()
         apikey = os.getenv('CB_SECRET', '')
+        signed_payload = hmac.new(
+            key=apikey.encode('utf-8'), 
+            msg=f"{str(result['data']['epoch'])}GET/accounts".encode('utf-8'), 
+            digestmod=hashlib.sha256
+            ).hexdigest()
 
         headers = {
             'CB-ACCESS-KEY': os.getenv('CB_KEY'),
-            'CB-ACCESS-SIGN': hmac.new(key=apikey.encode('utf-8'), msg=f"{str(result['data']['epoch'])}GET/accounts".encode('utf-8'), digestmod=hashlib.sha256),
+            'CB-ACCESS-SIGN': signed_payload,
             'CB-ACCESS-TIMESTAMP': f"{str(result['data']['epoch'])}"
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
