@@ -13,7 +13,7 @@ class CryptoSkill(MycroftSkill):
     @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
         
-        r = requests.get('https://api.coinbase.com/v2/accounts', auth=auth)
+        r = requests.get('https://api.coinbase.com/v2/accounts', auth=self.request_auth)
         self.log.warn(r.json())
         
         # use some sort of imported service to make request to coinbase API
