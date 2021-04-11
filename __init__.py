@@ -1,5 +1,5 @@
+import json, hmac, hashlib, time, os, requests
 from mycroft import MycroftSkill, intent_handler
-import requests
 
 API_KEY = os.getenv('CB_KEY')
 API_SECRET = os.getenv('CB_SECRET')
