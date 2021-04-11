@@ -11,7 +11,6 @@ class CoinbaseWalletAuth(AuthBase):
         self.secret_key = secret_key
 
     def __call__(self, request):
-        print self.api_key
         timestamp = str(int(time.time()))
         message = timestamp + request.method + request.path_url + (request.body or '')
         signature = hmac.new(self.secret_key.encode(), message.encode(), hashlib.sha256).hexdigest()
@@ -26,6 +25,7 @@ class CoinbaseWalletAuth(AuthBase):
 class CryptoSkill(MycroftSkill):
     def __init__(self):
         super(CryptoSkill, self).__init__("CryptoSkill")
+        self.log.info(API_KEY, API_SECRET)
         self.auth = CoinbaseWalletAuth(API_KEY, API_SECRET)
 
     @intent_handler('what.is.my.crypto.balance.intent')
