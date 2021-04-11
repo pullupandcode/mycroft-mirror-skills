@@ -17,7 +17,7 @@ class CryptoSkill(MycroftSkill):
 
         headers = {
             'CB-ACCESS-KEY': os.getenv('CB_KEY'),
-            'CB-ACCESS-SIGN': hmac.new(key=apikey, msg=f"{str(result['data']['epoch'])}GET/accounts".encode(), digestmod=hashlib.sha256),
+            'CB-ACCESS-SIGN': hmac.new(key=b'{}'.format(apikey), msg=f"{str(result['data']['epoch'])}GET/accounts".encode(), digestmod=hashlib.sha256),
             'CB-ACCESS-TIMESTAMP': f"{str(result['data']['epoch'])}"
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
