@@ -1,3 +1,6 @@
+import os
+import hmac
+import time
 from mycroft import MycroftSkill, intent_handler
 
 class CryptoSkill(MycroftSkill):
@@ -6,6 +9,15 @@ class CryptoSkill(MycroftSkill):
 
     @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
+        req_time = time.ctime()
+        headers = {
+            'CB-ACCESS-KEY': os.environ('CB_KEY'),
+            'CB-ACCESS-SIGN': hmac(os.environ('CB_SECRET'), '%s%s%s'.replace(req_time, 'GET', '/accounts')),
+            'CB-ACCESS-TIMESTAMP': req_time
+        }
+        r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
+        self.log.warn(r.json())
+        
         # use some sort of imported service to make request to coinbase API
         balance = '19999.05'
         # parse returned data
