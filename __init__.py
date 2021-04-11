@@ -9,11 +9,13 @@ class CryptoSkill(MycroftSkill):
 
     @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
-        req_time = str(time.mktime(time.gmtime()))
+        time_request = requests.get('https://api.coinbase.com/v2/time')
+        result = time_request.json()
+        
         headers = {
             'CB-ACCESS-KEY': os.getenv('CB_KEY'),
-            'CB-ACCESS-SIGN': hmac(os.getenv('CB_SECRET'), '%s%s%s'.replace(req_time, 'GET', '/accounts')),
-            'CB-ACCESS-TIMESTAMP': req_time
+            'CB-ACCESS-SIGN': hmac(os.getenv('CB_SECRET'), '%s%s%s'.replace(result['data']['epoch'], 'GET', '/accounts')),
+            'CB-ACCESS-TIMESTAMP': result['data']['epoch']
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
         self.log.warn(r.json())
