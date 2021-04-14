@@ -24,7 +24,8 @@ class CryptoSkill(MycroftSkill):
         headers = {
             'CB-ACCESS-KEY': os.getenv('CB_KEY'),
             'CB-ACCESS-SIGN': signed_payload,
-            'CB-ACCESS-TIMESTAMP': f"{str(result['data']['epoch'])}"
+            'CB-ACCESS-TIMESTAMP': f"{str(result['data']['epoch'])}",
+            'CB-VERSION': '2021-01-01'
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
         self.log.warn(r.json())
