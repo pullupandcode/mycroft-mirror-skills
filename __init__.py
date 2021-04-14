@@ -31,14 +31,14 @@ class CryptoSkill(MycroftSkill):
     def __init__(self):
         super(CryptoSkill, self).__init__("CryptoSkill")
         self.auth = CoinbaseWalletAuth(API_KEY, API_SECRET)
-        # self.redis_client = redis.Redis(host="192.168.1.11", port=6379, db=0)
+        self.redis_client = redis.Redis(host="192.168.1.11", port=6379, db=0)
 
     @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
         r = requests.get('https://api.coinbase.com/v2/accounts', auth=self.auth)
         result = r.json()
 
-        # self.redis_client.publish('crypto_balance', result)
+        self.redis_client.publish('crypto_balance', result)
         self.log.info('==== message published ====')
 
 
