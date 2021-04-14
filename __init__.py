@@ -1,6 +1,7 @@
 import json, hmac, hashlib, time, os, requests
 from requests.auth import AuthBase
 from mycroft import MycroftSkill, intent_handler
+import redis
 
 API_KEY = os.getenv('CB_KEY', '')
 API_SECRET = os.getenv('CB_SECRET', '')
@@ -22,11 +23,15 @@ class CoinbaseWalletAuth(AuthBase):
         })
         return request
 
+
 class CryptoSkill(MycroftSkill):
+    # remember to add pub channels via env variables
+    # pull out redis host info into env variables
     def __init__(self):
         super(CryptoSkill, self).__init__("CryptoSkill")
         self.log.info(API_KEY)
         self.auth = CoinbaseWalletAuth(API_KEY, API_SECRET)
+        self.redis_client = redis.Redis(host="192.168.1.11", port=6379, db=0)
 
     @intent_handler('what.is.my.crypto.balance.intent')
     def get_crypto_balance(self):
@@ -47,14 +52,10 @@ class CryptoSkill(MycroftSkill):
             'CB-VERSION': '2021-01-01'
         }
         r = requests.get('https://api.coinbase.com/v2/accounts', headers=headers)
-        self.log.warn(r.json())
-        
-        # use some sort of imported service to make request to coinbase API
-        balance = '19999.05'
-        # parse returned data
+        result = r.json()
 
-        # publish on topic for frontend use
-        self.log.info('we have %s in our account', balance)
+        self.redis_client.publish('crypto_balance', result)
+        self.log.info('==== message published ====')
 
 
 def create_skill():
