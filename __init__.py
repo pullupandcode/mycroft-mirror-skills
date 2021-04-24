@@ -41,7 +41,7 @@ class CryptoSkill(MycroftSkill):
         wallets = {}
         # currency, amount for currency, value in result
         for balance in result:
-            wallets{balance.currency} = balance.amount
+            wallets = {currency: amount for currency, amount in balance}
 
         self.redis_client.publish('crypto_balance', json.dumps(wallets, separators=(',', ':')))
         self.log.info('==== message published ====')
