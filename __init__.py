@@ -38,7 +38,7 @@ class CryptoSkill(MycroftSkill):
         r = requests.get('https://api.coinbase.com/v2/accounts', auth=self.auth)
         result = r.json()
 
-        response_message = parse_cb_response(result.get("data"))
+        response_message = self.parse_cb_response(result.get("data"))
 
         self.redis_client.publish('crypto_balance', json.dumps(response_message), separators=(',', ':'))
         self.log.info('==== message published ====')
