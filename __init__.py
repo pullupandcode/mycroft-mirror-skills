@@ -43,7 +43,7 @@ class CryptoSkill(MycroftSkill):
         self.redis_client.publish('crypto_balance', json.dumps(response_message), separators=(',', ':'))
         self.log.info('==== message published ====')
     
-    def parse_cb_response(data):
+    def parse_cb_response(self, data):
         currency_list = []
         usd_currency_value_list = []
         usd_prices = []
