@@ -48,8 +48,7 @@ class CryptoSkill(MycroftSkill):
         usd_currency_value_list = []
         usd_prices = []
 
-        parsed_data = json.loads(data)
-        for account in parsed_data:
+        for account in data:
             currency_list.append({"curr": account.get('balance').get('currency'), "val": account.get('balance').get('amount')})
 
         for account in currency_list:
