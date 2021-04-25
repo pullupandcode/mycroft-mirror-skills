@@ -40,7 +40,7 @@ class CryptoSkill(MycroftSkill):
 
         response_message = parse_cb_response(result.get("data"))
 
-        self.redis_client.publish('crypto_balance', json.dumps(response_message), separators=(',', ':')))
+        self.redis_client.publish('crypto_balance', json.dumps(response_message), separators=(',', ':'))
         self.log.info('==== message published ====')
     
     def parse_cb_response(data):
