@@ -38,9 +38,29 @@ class CryptoSkill(MycroftSkill):
         r = requests.get('https://api.coinbase.com/v2/accounts', auth=self.auth)
         result = r.json()
 
-        self.redis_client.publish('crypto_balance', json.dumps(result.get('data'), separators=(',', ':')))
-        self.log.info('==== message published ====')
+        response_message = parse_cb_response(result.get("data"))
 
+        self.redis_client.publish('crypto_balance', json.dumps(response_message), separators=(',', ':')))
+        self.log.info('==== message published ====')
+    
+    def parse_cb_response(data):
+        currency_list = []
+        usd_currency_value_list = []
+        usd_prices = []
+
+        parsed_data = json.loads(data)
+        for account in parsed_data:
+            currency_list.append({"curr": account.get('balance').get('currency'), "val": account.get('balance').get('amount')})
+
+        for account in currency_list:
+            response = requests.get("https://api.coinbase.com/v2/exchange-rates", {"currency": account.get('curr')}).json()
+            usd_value = response.get("data").get("rates").get("USD")
+            usd_prices.append(float(usd_value) * float(account.get("val")))
+
+            usd_currency_value_list.append({"currency": account.get("curr"), "usd_value": '%.2f' % (float( usd_value) * float(account.get("val")))})
+
+        usd_currency_value_list.append({"total": reduce(lambda x, y: x + y, usd_prices)})
+        return usd_currency_value_list
 
 def create_skill():
     return CryptoSkill()
