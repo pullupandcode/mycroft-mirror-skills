@@ -2,6 +2,7 @@ import json, hmac, hashlib, time, os, requests
 from requests.auth import AuthBase
 from mycroft import MycroftSkill, intent_handler
 import redis
+from functools import reduce
 
 API_KEY = os.getenv('CB_KEY', '')
 API_SECRET = os.getenv('CB_SECRET', '')
